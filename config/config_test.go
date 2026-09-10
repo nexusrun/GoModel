@@ -73,7 +73,7 @@ func clearAllConfigEnvVars(t *testing.T) {
 		"SEMANTIC_CACHE_PINECONE_HOST", "SEMANTIC_CACHE_PINECONE_API_KEY", "SEMANTIC_CACHE_PINECONE_NAMESPACE", "SEMANTIC_CACHE_PINECONE_DIMENSION",
 		"SEMANTIC_CACHE_WEAVIATE_URL", "SEMANTIC_CACHE_WEAVIATE_CLASS", "SEMANTIC_CACHE_WEAVIATE_API_KEY",
 		"STORAGE_TYPE", "SQLITE_PATH", "POSTGRES_URL", "POSTGRES_MAX_CONNS",
-		"POSTGRESQL_URL", "POSTGRESQL_MAX_CONNS", "DATABASE_URL",
+		"POSTGRES_URI", "POSTGRESQL_URL", "POSTGRESQL_URI", "POSTGRESQL_MAX_CONNS", "DATABASE_URL",
 		"MONGODB_URL", "MONGODB_DATABASE", "MONGO_URL", "MONGO_URI", "MONGODB_URI", "MONGO_DATABASE",
 		"METRICS_ENABLED", "METRICS_ENDPOINT",
 		"LOGGING_ENABLED", "LOGGING_LOG_BODIES", "LOGGING_LOG_REVISION_BODIES", "LOGGING_LOG_GUARDRAIL_STEPS", "LOGGING_LOG_HEADERS",
@@ -1495,6 +1495,11 @@ func TestLoad_StorageEnvAliases(t *testing.T) {
 			name:         "DatabaseURLAlias",
 			env:          map[string]string{"STORAGE_TYPE": "postgresql", "DATABASE_URL": "postgres://generic/db"},
 			wantPostgres: "postgres://generic/db",
+		},
+		{
+			name:         "PostgresURIAlias",
+			env:          map[string]string{"STORAGE_TYPE": "postgresql", "POSTGRES_URI": "postgres://root:pw@postgres:5432/appdb"},
+			wantPostgres: "postgres://root:pw@postgres:5432/appdb",
 		},
 		{
 			name:         "CanonicalWinsOverAlias",

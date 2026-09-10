@@ -28,9 +28,9 @@ type SQLiteStorageConfig struct {
 // PostgreSQLStorageConfig holds PostgreSQL-specific storage configuration
 type PostgreSQLStorageConfig struct {
 	// URL is the connection string (e.g., postgres://user:pass@localhost/dbname).
-	// POSTGRESQL_URL and DATABASE_URL are accepted as aliases for platforms
-	// (e.g. NexusAI) that inject one of those names.
-	URL string `yaml:"url" env:"POSTGRES_URL,POSTGRESQL_URL,DATABASE_URL"`
+	// POSTGRES_URI / POSTGRESQL_URL / POSTGRESQL_URI / DATABASE_URL are accepted
+	// as aliases for platforms (e.g. NexusAI) that inject one of those names.
+	URL string `yaml:"url" env:"POSTGRES_URL,POSTGRES_URI,POSTGRESQL_URL,POSTGRESQL_URI,DATABASE_URL"`
 	// MaxConns is the maximum connection pool size (default: 10)
 	MaxConns int `yaml:"max_conns" env:"POSTGRES_MAX_CONNS,POSTGRESQL_MAX_CONNS"`
 }

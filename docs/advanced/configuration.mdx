@@ -129,7 +129,7 @@ Storage is shared by audit logging, usage tracking, and future features like IAM
 | -------------------- | --------------------------------------------- | ----------------- |
 | `STORAGE_TYPE`       | Backend: `sqlite`, `postgresql`, or `mongodb` | `sqlite`          |
 | `SQLITE_PATH`        | SQLite database file path                     | `data/gomodel.db` |
-| `POSTGRES_URL`       | PostgreSQL connection string (aliases: `POSTGRESQL_URL`, `DATABASE_URL`) | _(empty)_ |
+| `POSTGRES_URL`       | PostgreSQL connection string (aliases: `POSTGRES_URI`, `POSTGRESQL_URL`, `POSTGRESQL_URI`, `DATABASE_URL`) | _(empty)_ |
 | `POSTGRES_MAX_CONNS` | PostgreSQL connection pool size               | `10`              |
 | `MONGODB_URL`        | MongoDB connection string; a database named in its path is used (aliases: `MONGO_URI`, `MONGO_URL`, `MONGODB_URI`) | _(empty)_ |
 | `MONGODB_DATABASE`   | MongoDB database name; overrides the URL path (alias: `MONGO_DATABASE`) | `gomodel`         |

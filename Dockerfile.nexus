@@ -1,7 +1,7 @@
 FROM golang:1.27.1-alpine3.24
 RUN apk add --no-cache git ca-certificates nodejs npm
-ARG REPO_URL=https://github.com/ENTERPILOT/GoModel.git
-ARG REPO_REF=main
+ARG REPO_URL=https://github.com/nexusrun/GoModel.git
+ARG REPO_REF=5effb0ae
 ARG VERSION=nexus
 WORKDIR /src
 RUN git clone "${REPO_URL}" . && git checkout "${REPO_REF}"

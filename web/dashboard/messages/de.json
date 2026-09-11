@@ -1562,5 +1562,11 @@
   "workflows_guardrail_phase_invalid": "Jeder Guardrail-Schritt muss die Phase prompt, response oder stream verwenden.",
   "models_strategy_plugin": "{name} (Routing-Plugin)",
   "models_strategy_name_plugin": "Plugin",
-  "models_strategy_plugin_fields_help": "Einstellungen für das Routing-Plugin {name}, gespeichert mit diesem virtuellen Modell."
+  "models_strategy_plugin_fields_help": "Einstellungen für das Routing-Plugin {name}, gespeichert mit diesem virtuellen Modell.",
+  "models_sort_label": "Nach Preis innerhalb jedes Anbieters sortieren",
+  "models_sort_default": "Standardreihenfolge",
+  "models_sort_input_asc": "Eingabepreis: Aufsteigend",
+  "models_sort_input_desc": "Eingabepreis: Absteigend",
+  "models_sort_output_asc": "Ausgabepreis: Aufsteigend",
+  "models_sort_output_desc": "Ausgabepreis: Absteigend"
 }

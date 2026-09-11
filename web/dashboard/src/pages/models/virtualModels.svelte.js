@@ -25,7 +25,11 @@ import { computeRenderStep, initialRenderStep } from "./renderBatching.js";
 import { modelAccessStateClass, splitVirtualModelViews } from "./routing.js";
 import { buildAliasTogglePayload, buildModelTogglePayload } from "./vmForm.js";
 
+import { sortModelsByPrice } from "./priceSorting.js";
+import { pricingOverrides } from "./pricingOverrides.svelte.js";
+
 class VirtualModelsStore {
+  priceSort = $state("");
   virtualModelsAvailable = $state(true);
   aliases = $state([]);
   modelOverrideViews = $state([]);
@@ -59,7 +63,11 @@ class VirtualModelsStore {
   );
 
   filteredDisplayModels = $derived(
-    filterDisplayModels(this.displayModels, modelsStore.filter),
+    sortModelsByPrice(
+      filterDisplayModels(this.displayModels, modelsStore.filter),
+      this.priceSort,
+      (row) => pricingOverrides.modelRowPricing(row),
+    ),
   );
 
   filteredDisplayModelGroups = $derived.by(() => {
@@ -68,7 +76,7 @@ class VirtualModelsStore {
       0,
       Math.min(Number(this.modelRenderLimit || 0), filtered.length),
     );
-    if (!modelsStore.filter && limit >= this.displayModels.length) {
+    if (!this.priceSort && !modelsStore.filter && limit >= this.displayModels.length) {
       return this.displayModelGroups;
     }
     return groupDisplayModels(

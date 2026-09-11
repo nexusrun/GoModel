@@ -1590,5 +1590,11 @@
   "workflows_guardrail_phase_invalid": "Każdy krok Guardrail musi używać fazy prompt, response lub stream.",
   "models_strategy_plugin": "{name} (wtyczka routingu)",
   "models_strategy_name_plugin": "Wtyczka",
-  "models_strategy_plugin_fields_help": "Ustawienia wtyczki routingu {name}, zapisywane razem z tym modelem wirtualnym."
+  "models_strategy_plugin_fields_help": "Ustawienia wtyczki routingu {name}, zapisywane razem z tym modelem wirtualnym.",
+  "models_sort_label": "Sortuj według ceny w obrębie dostawcy",
+  "models_sort_default": "Domyślna kolejność",
+  "models_sort_input_asc": "Cena wejścia: Rosnąco",
+  "models_sort_input_desc": "Cena wejścia: Malejąco",
+  "models_sort_output_asc": "Cena wyjścia: Rosnąco",
+  "models_sort_output_desc": "Cena wyjścia: Malejąco"
 }

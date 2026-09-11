@@ -1433,5 +1433,11 @@
   "workflows_guardrail_phase_invalid": "每个护栏步骤必须使用提示、响应或流式阶段。",
   "models_strategy_plugin": "{name}（路由插件）",
   "models_strategy_name_plugin": "插件",
-  "models_strategy_plugin_fields_help": "{name} 路由插件的设置，随此虚拟模型一起存储。"
+  "models_strategy_plugin_fields_help": "{name} 路由插件的设置，随此虚拟模型一起存储。",
+  "models_sort_label": "按各提供商的价格排序",
+  "models_sort_default": "默认顺序",
+  "models_sort_input_asc": "输入价格：从低到高",
+  "models_sort_input_desc": "输入价格：从高到低",
+  "models_sort_output_asc": "输出价格：从低到高",
+  "models_sort_output_desc": "输出价格：从高到低"
 }

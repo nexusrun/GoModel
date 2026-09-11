@@ -13,8 +13,8 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates
 
 # Download dependencies first for better layer caching
-COPY go.mod go.sum ./
-RUN go mod download
+#COPY go.mod go.sum ./
+#RUN go mod download
 
 # Copy source and cross-compile for the target platform
 COPY . .

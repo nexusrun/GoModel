@@ -121,6 +121,18 @@
         />
       </div>
       <div class="table-toolbar-actions">
+        <select
+          class="usage-log-select"
+          aria-label={m.models_sort_label()}
+          title={m.models_sort_label()}
+          bind:value={virtualModels.priceSort}
+        >
+          <option value="">{m.models_sort_default()}</option>
+          <option value="input_asc">{m.models_sort_input_asc()}</option>
+          <option value="input_desc">{m.models_sort_input_desc()}</option>
+          <option value="output_asc">{m.models_sort_output_asc()}</option>
+          <option value="output_desc">{m.models_sort_output_desc()}</option>
+        </select>
         {#if virtualModels.virtualModelsAvailable}
           <button
             type="button"

@@ -19,6 +19,7 @@ import (
 	"github.com/enterpilot/gomodel/internal/server"
 	"github.com/enterpilot/gomodel/internal/streaming"
 	"github.com/enterpilot/gomodel/internal/usage"
+	"github.com/stretchr/testify/require"
 )
 
 const (
@@ -249,14 +250,11 @@ func newRoutedBenchServerWithResolver(tb testing.TB, modelCount int, resolver se
 
 	registry := providers.NewModelRegistry()
 	registry.RegisterProviderWithNameAndType(&benchProvider{models: models}, "mock", "mock")
-	if err := registry.Initialize(context.Background()); err != nil {
-		tb.Fatalf("registry initialize: %v", err)
-	}
+	err := registry.Initialize(context.Background())
+	require.NoError(tb, err)
 
 	router, err := providers.NewRouter(registry)
-	if err != nil {
-		tb.Fatalf("new router: %v", err)
-	}
+	require.NoError(tb, err)
 
 	return server.New(router, &server.Config{LogOnlyModelInteractions: true, ModelResolver: resolver})
 }
@@ -394,9 +392,7 @@ func TestFormatPerfGuardResult(t *testing.T) {
 		"allocs/op=114/150",
 		"bytes/op=13654/18432",
 	} {
-		if !strings.Contains(got, want) {
-			t.Fatalf("formatPerfGuardResult() = %q, want substring %q", got, want)
-		}
+		require.Contains(t, got, want)
 	}
 }
 
@@ -479,11 +475,14 @@ func TestHotPathPerfGuard(t *testing.T) {
 			// response.completed now carries the full output array, and the
 			// terminal status became a variable (completed vs incomplete),
 			// boxing a few extra interface values — both once-per-stream costs
-			// independent of chunk count.
+			// independent of chunk count. Normalizing the stream to OpenAI's
+			// event lifecycle added four once-per-stream events
+			// (response.in_progress, content_part.added/done, output_text.done)
+			// with typed payloads; per-delta cost is unchanged.
 			name:      "openai_responses_stream_converter",
 			bench:     BenchmarkOpenAIResponsesStreamConverter,
-			maxAllocs: 107,   // baseline 105
-			maxBytes:  12288, // baseline ~11.3 KB (leaves headroom for pool cold-starts)
+			maxAllocs: 132,   // baseline 126
+			maxBytes:  20480, // baseline ~19.1 KB (leaves headroom for pool cold-starts)
 		},
 		{
 			name:      "shared_stream_audit_and_usage_observers",
@@ -498,7 +497,7 @@ func TestHotPathPerfGuard(t *testing.T) {
 			name:      "shared_stream_observers_default_config",
 			bench:     BenchmarkSharedStreamingObserversDefaultConfig,
 			maxAllocs: 62,   // baseline 60 (incl. request labels on both observers)
-			maxBytes:  3584, // baseline ~3.3 KB
+			maxBytes:  3712, // baseline ~3.5 KB (audit entry carries the guardrail outcome trail)
 		},
 	}
 
@@ -506,13 +505,8 @@ func TestHotPathPerfGuard(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			result := testing.Benchmark(tc.bench)
 			t.Log(formatPerfGuardResult(tc.name, result, tc.maxAllocs, tc.maxBytes))
-
-			if got := result.AllocsPerOp(); got > tc.maxAllocs {
-				t.Fatalf("allocs/op = %d, want <= %d", got, tc.maxAllocs)
-			}
-			if got := result.AllocedBytesPerOp(); got > tc.maxBytes {
-				t.Fatalf("bytes/op = %d, want <= %d", got, tc.maxBytes)
-			}
+			require.LessOrEqual(t, result.AllocsPerOp(), tc.maxAllocs, "allocs/op")
+			require.LessOrEqual(t, result.AllocedBytesPerOp(), tc.maxBytes, "bytes/op")
 		})
 	}
 }
